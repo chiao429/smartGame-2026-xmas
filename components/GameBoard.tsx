@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
+import { getTeamTokenImage } from "@/data/teamTokens";
 import { Cell, Team } from "@/types/game";
 import { CELLS } from "@/data/cells";
 
@@ -82,6 +83,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ teams, currentTeamIndex })
             const [column, row] = CELL_PLACEMENTS[team.position];
             const teamsHere = teams.filter((otherTeam) => otherTeam.position === team.position);
             const index = teamsHere.findIndex((otherTeam) => otherTeam.id === team.id);
+            const tokenImage = getTeamTokenImage(team.image);
             const stackOffset = teamsHere.length > 1
               ? index === 0
                 ? "calc(-1 * (var(--piece-size) + var(--piece-stack-gap)) / 2)"
@@ -93,7 +95,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({ teams, currentTeamIndex })
                 key={team.id}
                 className={`xmas-piece xmas-piece-pin ${team.justArrived ? "piece-arrived" : ""}`}
                 style={{
-                  backgroundColor: team.color,
                   "--piece-edge": CELL_RIGHT_EDGES[column],
                   "--piece-center": CELL_ROW_CENTERS[row],
                   "--piece-stack-offset": stackOffset,
@@ -101,10 +102,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({ teams, currentTeamIndex })
                 title={team.name}
                 aria-label={`${team.name}，第 ${team.position} 格`}
               >
-                {team.image ? (
-                  <span className="xmas-piece-image" style={{ backgroundImage: `url(${team.image})` }} role="img" aria-label={team.name} />
+                {tokenImage ? (
+                  <span className="xmas-piece-animal" style={{ backgroundImage: `url(${tokenImage})` }} aria-hidden="true" />
                 ) : (
-                  <span aria-hidden="true">{team.emoji}</span>
+                  <span className="xmas-piece-animal-fallback" style={{ color: team.color }} aria-hidden="true">{team.emoji}</span>
                 )}
               </span>
             );
@@ -112,7 +113,16 @@ export const GameBoard: React.FC<GameBoardProps> = ({ teams, currentTeamIndex })
         </div>
         <section className="xmas-center" aria-label="聖誕探索號目前遊戲狀態">
           <span className="xmas-turn-label">輪到隊伍</span>
-          <strong className="xmas-turn-name">{currentTeam?.name ?? "等待隊伍"}</strong>
+          <div className="xmas-turn-team">
+            {currentTeam && (
+              <span className="xmas-turn-avatar" style={{ backgroundColor: currentTeam.color }} aria-hidden="true">
+                {currentTeam.image ? (
+                  <span className="xmas-piece-image" style={{ backgroundImage: `url(${currentTeam.image})` }} />
+                ) : currentTeam.emoji}
+              </span>
+            )}
+            <strong className="xmas-turn-name">{currentTeam?.name ?? "等待隊伍"}</strong>
+          </div>
           <span className="xmas-turn-position">目前在第 {currentTeam?.position ?? 1} 格</span>
         </section>
       </div>

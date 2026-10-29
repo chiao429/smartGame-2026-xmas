@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useGameContext } from "@/contexts/GameContextSocket";
-import { GameBoard } from "@/components/GameBoard";
 import { EventModal } from "@/components/EventModal";
 import { WinScreen } from "@/components/WinScreen";
 import { CELLS } from "@/data/cells";
+
+const GameBoard = dynamic(() => import("@/components/GameBoardDiorama"), { ssr: false });
 
 export default function GamePage() {
   const { gameState, closeEvent } = useGameContext();
@@ -32,7 +34,7 @@ export default function GamePage() {
       return;
     }
 
-    await document.documentElement.requestFullscreen();
+    await document.documentElement.requestFullscreen({ navigationUI: "hide" });
   };
 
   const displayControls = (
