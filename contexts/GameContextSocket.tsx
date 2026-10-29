@@ -41,6 +41,28 @@ const FINAL_CELL_ID = CELLS[CELLS.length - 1]?.id ?? 12;
 
 const clampPosition = (position: number) => Math.min(Math.max(position, 1), FINAL_CELL_ID);
 
+const playMovementSounds = (team: Team, steps: number) => {
+  if (typeof window === "undefined" || steps < 1) return;
+
+  const teamSound = team.image?.includes("cheetah")
+    ? "/audio/move-Cheetah.mp3"
+    : "/audio/move-wolf.mp3";
+  const soundQueue = Array.from({ length: steps }, (_, index) =>
+    index === 0 ? teamSound : "/audio/move-step.mp3"
+  );
+
+  const playNext = () => {
+    const src = soundQueue.shift();
+    if (!src) return;
+
+    const audio = new Audio(src);
+    audio.addEventListener("ended", playNext, { once: true });
+    void audio.play().catch(() => {});
+  };
+
+  playNext();
+};
+
 const formatMissionMessage = (description: string) => description;
 
 const formatQuizMessage = (cell: (typeof CELLS)[number]) => {
@@ -120,6 +142,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const currentTeam = currentState.teams[currentState.currentTeamIndex];
     let currentPosition = currentTeam.position;
     const isForward = targetPosition > currentPosition;
+    playMovementSounds(currentTeam, Math.abs(targetPosition - currentPosition));
 
     const moveOneStep = () => {
       if (
@@ -378,6 +401,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const targetPosition = clampPosition(currentTeam.position + steps);
     let currentPosition = currentTeam.position;
+    playMovementSounds(currentTeam, Math.abs(targetPosition - currentPosition));
 
     const moveOneStep = () => {
       if (currentPosition >= targetPosition) {

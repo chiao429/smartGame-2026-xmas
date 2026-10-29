@@ -13,7 +13,7 @@ interface GameBoardDioramaProps {
 }
 
 const STATION_ANCHORS: Record<number, { name: [number, number]; number: [number, number]; token: [number, number] }> = {
-  1: { name: [17, 24], number: [6.5, 10], token: [6.5, 23] },
+  1: { name: [25, 24], number: [11.5, 10], token: [11.5, 21] },
   2: { name: [38, 24], number: [31, 10], token: [31, 23] },
   3: { name: [58, 24], number: [51.5, 10], token: [51.5, 23] },
   4: { name: [86, 22], number: [77, 10], token: [77, 23] },
