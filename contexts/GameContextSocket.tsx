@@ -137,7 +137,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const clearedTeams = arrivedTeams.map(team => ({ ...team, justArrived: false }));
           updateGame({ teams: clearedTeams });
           onComplete();
-        }, 1000);
+        }, 550);
         return;
       }
 
@@ -396,7 +396,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setTimeout(() => {
             handleCellEffect(newState);
           }, 300);
-        }, 1000);
+        }, 550);
         return;
       }
 
@@ -407,7 +407,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       updateGame({ teams: updatedTeams });
 
-      setTimeout(moveOneStep, 400);
+      setTimeout(moveOneStep, 300);
     };
 
     moveOneStep();

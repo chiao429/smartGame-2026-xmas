@@ -211,25 +211,27 @@ button:disabled { cursor: not-allowed; }
 .xmas-game-board-area { display: grid; width: 100%; height: 100%; padding: 18px 96px 18px 18px; place-items: center; }
 .xmas-game-page.is-fullscreen .xmas-game-board-area { padding: 18px; }
 .xmas-board-shell { width: min(100%, calc((100vh - 36px) * 16 / 9)); aspect-ratio: 16 / 9; padding: clamp(7px, .8vw, 15px); border: 1px solid rgba(231,199,125,.86); border-radius: clamp(16px, 2vw, 30px); background: linear-gradient(145deg,#246044,#143c2e 52%,#0e3327); box-shadow: 0 20px 65px rgba(4,20,14,.45), inset 0 0 0 3px rgba(255,255,255,.05), inset 0 0 36px rgba(255,244,204,.08); }
-.xmas-board-grid { position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: clamp(4px,.62vw,11px); }
-.xmas-cell { --tile-bg: #fffaf0; --tile-edge: #dfd2b9; position: relative; z-index: 1; display: flex; min-width: 0; min-height: 0; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(5px,.65vw,12px); border: 2px solid var(--tile-edge); border-radius: clamp(8px,1vw,17px); background: linear-gradient(145deg,#fffdf8,var(--tile-bg)); box-shadow: 0 4px 0 rgba(7,30,20,.14), 0 8px 17px rgba(4,24,16,.11); color: #284033; container-type: inline-size; transition: transform .22s ease, box-shadow .22s ease; }
+.xmas-board-grid { --board-gap: clamp(4px,.62vw,11px); --piece-size: clamp(3rem,4vw,3.5rem); --piece-inset: clamp(9px,1vw,14px); --piece-stack-gap: clamp(4px,.5vw,8px); position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: var(--board-gap); }
+.xmas-cell { --tile-bg: #fffaf0; --tile-edge: #dfd2b9; position: relative; z-index: 1; display: flex; min-width: 0; min-height: 0; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(5px,.65vw,12px); border: 2px solid var(--tile-edge); border-radius: clamp(8px,1vw,17px); background: linear-gradient(145deg,#fffdf8,var(--tile-bg)); box-shadow: 0 4px 0 rgba(7,30,20,.14), 0 8px 17px rgba(4,24,16,.11); color: #284033; container-type: inline-size; transition: box-shadow .22s ease, border-color .22s ease; }
 .xmas-cell[data-board-cell="1"] { --tile-bg: #e6f0e5; --tile-edge: #83a487; }
 .xmas-cell[data-board-cell="2"], .xmas-cell[data-board-cell="4"], .xmas-cell[data-board-cell="8"], .xmas-cell[data-board-cell="11"] { --tile-bg: #f3f3df; --tile-edge: #c5b36f; }
 .xmas-cell[data-board-cell="3"], .xmas-cell[data-board-cell="9"] { --tile-bg: #e9f3f4; --tile-edge: #a8c9c9; }
 .xmas-cell[data-board-cell="5"] { --tile-bg: #fff4d9; --tile-edge: #d7ba78; }
 .xmas-cell[data-board-cell="6"], .xmas-cell[data-board-cell="7"], .xmas-cell[data-board-cell="10"] { --tile-bg: #edf2e9; --tile-edge: #b8c9ad; }
 .xmas-cell[data-board-cell="12"] { --tile-bg: #f9e9dc; --tile-edge: #cf9270; }
-.xmas-cell-current { z-index: 2; transform: scale(1.025); border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(255,248,224,.98), 0 0 0 6px var(--gold), 0 9px 24px rgba(7,30,20,.3); }
+.xmas-cell-current { z-index: 2; border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(255,248,224,.98), 0 0 0 6px var(--gold), 0 9px 24px rgba(7,30,20,.3); }
 .xmas-cell-meta { display: flex; align-items: center; justify-content: space-between; min-height: 2.75rem; gap: 8px; }
 .xmas-cell-number { display: grid; min-width: 2.75rem; height: 2.75rem; place-items: center; border-radius: 12px; background: var(--pine); box-shadow: 0 2px 0 rgba(13,41,29,.18); color: #fff9ed; font-size: 2rem; font-weight: 900; }
 .xmas-cell-start .xmas-cell-number { background: #39734b; }
 .xmas-cell-end .xmas-cell-number { background: var(--red); }
-.xmas-cell-content { display: flex; min-height: 0; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: clamp(2px,.4cqw,5px); padding: 0 3px; text-align: center; }
+.xmas-cell-content { display: flex; width: 100%; min-height: 0; flex: 1; align-self: flex-start; flex-direction: column; align-items: center; justify-content: center; gap: clamp(2px,.4cqw,5px); padding: 0 3px; text-align: center; transition: width .28s ease; }
+.xmas-cell[data-has-pieces="true"] .xmas-cell-content { width: calc(100% - var(--piece-size) - var(--piece-inset)); }
 .xmas-cell-icon { font-size: clamp(2.75rem,8cqw,4rem); line-height: 1; filter: drop-shadow(0 2px 1px rgba(24,56,39,.12)); }
 .xmas-cell-name { display: block; max-width: 100%; color: #263e30; font-size: 2rem; font-weight: 850; letter-spacing: .025em; line-height: 1.1; overflow-wrap: anywhere; }
 .xmas-cell-start .xmas-cell-name, .xmas-cell-end .xmas-cell-name { color: var(--pine); }
-.xmas-pieces { display: flex; flex: 0 0 auto; justify-content: flex-end; gap: clamp(2px,.35cqw,5px); pointer-events: none; }
-.xmas-piece { display: grid; width: 2.75rem; height: 2.75rem; flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: 2rem; line-height: 1; }
+.xmas-piece-layer { position: absolute; z-index: 5; inset: 0; overflow: visible; pointer-events: none; }
+.xmas-piece { display: grid; width: var(--piece-size); height: var(--piece-size); place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: 2rem; line-height: 1; }
+.xmas-piece-pin { position: absolute; left: var(--piece-edge); top: var(--piece-center); transform: translate3d(calc(-100% - var(--piece-inset)), calc(-50% + var(--piece-stack-offset)), 0); transition: left .28s linear, top .28s linear, transform .28s linear; will-change: left, top, transform; }
 
 .xmas-center { display: flex; min-width: 0; min-height: 0; grid-column: 2 / span 2; grid-row: 2 / span 2; flex-direction: column; align-items: center; justify-content: center; gap: clamp(12px,1.5vw,22px); overflow: hidden; padding: clamp(12px,2vw,28px); border: 1px solid #decca5; border-radius: clamp(12px,1.6vw,24px); background: radial-gradient(ellipse at 50% 2%,#fffef7 0%,#fffaf0 69%,#f3ead7 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.55), 0 7px 20px rgba(5,31,19,.16); text-align: center; }
 .xmas-turn-label { color: #a47d39; font-size: 2rem; font-weight: 800; letter-spacing: .03em; line-height: 1.1; }
@@ -274,18 +276,17 @@ button:disabled { cursor: not-allowed; }
 @keyframes xmas-dice-roll { 0%,100% { transform: rotate(0); } 30% { transform: rotate(-12deg) scale(1.06); } 65% { transform: rotate(13deg) scale(.96); } }
 @keyframes xmas-win-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes xmas-fall { from { transform: translateY(-5vh) rotate(0); } to { transform: translateY(112vh) rotate(300deg); } }
-@keyframes piece-bounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.08); } }
-.piece-arrived { animation: piece-bounce .5s ease-in-out 2; }
+@keyframes xmas-piece-land { 0%,100% { box-shadow: 0 2px 5px rgba(18,44,29,.25); } 50% { box-shadow: 0 0 0 7px rgba(231,199,125,.55), 0 2px 8px rgba(18,44,29,.3); } }
+.piece-arrived { animation: xmas-piece-land .55s ease-in-out 1; }
 
 @media (max-width: 900px) {
   .xmas-console-page { padding-top: 24px; }
   .xmas-control-layout { grid-template-columns: minmax(0,1fr); grid-template-areas: "play" "status" "actions"; }
   .xmas-team-status-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .xmas-board-shell { padding: 7px; }
-  .xmas-board-grid { gap: 4px; }
+  .xmas-board-grid { --board-gap: 4px; --piece-size: 2.75rem; gap: var(--board-gap); }
   .xmas-cell { padding: 5px; border-width: 1px; }
   .xmas-cell-icon { font-size: clamp(2.5rem,6cqw,3rem); }
-  .xmas-pieces { gap: 3px; }
   .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
   .xmas-game-board-area { height: auto; min-height: 100vh; padding: 64px 14px 14px; }
   .xmas-game-page.is-fullscreen .xmas-game-board-area { padding: 14px; }
@@ -313,23 +314,20 @@ button:disabled { cursor: not-allowed; }
   .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
   .xmas-game-board-area { height: auto; min-height: 100vh; padding: 14px 0; }
   .xmas-board-shell { height: auto; aspect-ratio: auto; }
-  .xmas-board-grid { grid-template-rows: repeat(4,minmax(250px,auto)); gap: 2px; }
+  .xmas-board-grid { --board-gap: 2px; --piece-size: 2.25rem; grid-template-rows: repeat(4,minmax(250px,auto)); gap: var(--board-gap); }
   .xmas-cell { padding: 2px; border-radius: 6px; }
   .xmas-cell-number { min-width: 2.75rem; height: 2.75rem; border-radius: 9px; }
   .xmas-cell-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; grid-template-rows: 2.75rem auto; align-items: start; min-height: 5rem; gap: 2px; }
-  .xmas-pieces { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; gap: 2px; }
-  .xmas-piece { width: 2.25rem; height: 2.25rem; font-size: 2rem; }
   .xmas-cell-icon { font-size: clamp(2.75rem,12vw,3.5rem); }
   .xmas-cell-content { gap: 2px; padding-bottom: 0; }
   .xmas-cell-name { font-size: 2rem; letter-spacing: 0; }
-  .xmas-pieces { bottom: 1px; }
-  .xmas-piece { width: clamp(14px,4.3vw,22px); height: clamp(14px,4.3vw,22px); border-width: 1px; font-size: 10px; }
   .xmas-center { gap: 10px; padding: 14px; border-radius: 7px; }
   .xmas-event-modal { padding: 25px 19px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .xmas-piece-pin { transition-duration: .28s !important; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
