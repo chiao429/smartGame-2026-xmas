@@ -1,0 +1,363 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --pine: #174737;
+  --pine-dark: #103628;
+  --pine-soft: #e7f0e8;
+  --cream: #fffaf0;
+  --paper: #fffdf8;
+  --ink: #26362c;
+  --muted: #647167;
+  --red: #b64b43;
+  --gold: #d4a54f;
+  --line: #e7dcc8;
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+:focus-visible {
+  outline: 3px solid #e5b451;
+  outline-offset: 3px;
+}
+
+.xmas-eyebrow {
+  margin: 0;
+  color: #a47d39;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.xmas-piece-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-position: center;
+  background-size: cover;
+}
+
+.xmas-setup-page,
+.xmas-console-page,
+.xmas-game-page,
+.xmas-win-screen {
+  background-color: var(--pine-dark);
+  background-image:
+    radial-gradient(circle at 15% 16%, rgba(255,255,255,.28) 1px, transparent 1.8px),
+    radial-gradient(circle at 83% 73%, rgba(255,255,255,.18) 1px, transparent 1.8px),
+    radial-gradient(ellipse at 50% -10%, #2b6850 0%, #174737 48%, #103628 100%);
+  background-size: 56px 56px, 79px 79px, auto;
+}
+
+/* Setup */
+.xmas-setup-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+}
+
+.xmas-setup-card {
+  position: relative;
+  width: min(690px, 100%);
+  padding: clamp(28px, 5vw, 52px);
+  overflow: hidden;
+  border: 1px solid rgba(212,165,79,.7);
+  border-radius: 28px;
+  background: var(--cream);
+  box-shadow: 0 28px 80px rgba(8,29,20,.32), inset 0 0 0 7px rgba(255,255,255,.55);
+}
+
+.xmas-setup-card::before {
+  position: absolute;
+  top: 0;
+  right: 8%;
+  left: 8%;
+  height: 5px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(90deg, var(--pine), #4c8b61, var(--gold), var(--red));
+  content: "";
+}
+
+.xmas-setup-brand { position: relative; margin-bottom: 34px; text-align: center; }
+.xmas-setup-train { display: block; margin-bottom: 8px; font-size: 3.5rem; }
+.xmas-setup-star { position: absolute; top: 0; right: 22%; color: var(--gold); font-size: 1.5rem; }
+.xmas-setup-brand h1 { margin: 7px 0; color: var(--pine); font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 900; letter-spacing: .06em; }
+.xmas-setup-intro { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.xmas-setup-section { margin: 27px 0; }
+.xmas-setup-section h2 { margin: 0 0 13px; color: var(--pine); font-size: 1rem; font-weight: 800; }
+
+.xmas-step-buttons button {
+  border: 1px solid #d8ceba;
+  background: #fff;
+  color: var(--pine);
+  transition: background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.xmas-step-buttons button.is-selected { border-color: var(--pine); background: var(--pine); color: white; }
+
+.xmas-team-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+.xmas-team-field { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 15px; background: white; }
+.xmas-team-avatar { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 0 1px rgba(25,64,47,.12); font-size: 1.55rem; }
+.xmas-team-field-control { display: grid; flex: 1; min-width: 0; gap: 3px; }
+.xmas-team-field-caption { color: var(--muted); font-size: .71rem; font-weight: 700; }
+.xmas-team-field input { width: 100%; min-width: 0; padding: 5px 0; border: 0; border-bottom: 1px solid #e5ddce; background: transparent; color: var(--ink); font-size: .96rem; font-weight: 700; }
+.xmas-team-field input:focus { border-color: var(--pine); outline: none; }
+
+.xmas-start-button {
+  display: block;
+  width: min(100%, 390px);
+  margin: 31px auto 0;
+  padding: 17px 22px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--red);
+  box-shadow: 0 7px 0 #8e352f, 0 14px 28px rgba(137,51,44,.2);
+  color: #fffaf0;
+  font-size: 1.2rem;
+  font-weight: 850;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.xmas-start-button:hover { transform: translateY(-2px); box-shadow: 0 9px 0 #8e352f, 0 16px 28px rgba(137,51,44,.2); }
+.xmas-start-button:active { transform: translateY(3px); box-shadow: 0 3px 0 #8e352f; }
+.xmas-setup-footnote { margin: 17px 0 0; color: #7a847b; font-size: .77rem; text-align: center; }
+
+/* Host console */
+.xmas-console-page { min-height: 100vh; padding: 28px 20px 48px; }
+.xmas-console-wrap { width: min(1120px, 100%); margin: 0 auto; }
+.xmas-console-header { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 10px 0 26px; color: var(--cream); text-align: left; }
+.xmas-console-mark { font-size: 3.2rem; }
+.xmas-console-header h1 { margin: 2px 0; color: #fff9e9; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: .06em; }
+.xmas-console-header > div > p:last-child { margin: 3px 0 0; color: #d0e0d3; font-size: .9rem; }
+.xmas-console-header .xmas-eyebrow { color: #e4c681; }
+
+.xmas-control-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr); grid-template-areas: "play status" "actions actions"; gap: 18px; align-items: start; }
+.xmas-control-card,
+.xmas-status-card { padding: 24px; border: 1px solid #e3d7c4; border-radius: 22px; background: var(--cream); box-shadow: 0 16px 42px rgba(9,30,22,.22); }
+.xmas-control-card { grid-area: play; }
+.xmas-status-card { grid-area: status; }
+.xmas-section-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 19px; }
+.xmas-heading-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; background: var(--pine-soft); font-size: 1.25rem; }
+.xmas-section-heading .xmas-eyebrow { font-size: .62rem; }
+.xmas-section-heading h2 { margin: 2px 0 0; color: var(--pine); font-size: 1.25rem; font-weight: 850; }
+
+.xmas-active-team { display: flex; align-items: center; gap: 13px; min-height: 78px; margin-bottom: 18px; padding: 12px 14px; border: 1px solid #d8e3d5; border-radius: 15px; background: #f2f6ed; }
+.xmas-active-team-avatar { display: grid; flex: 0 0 50px; width: 50px; height: 50px; place-items: center; overflow: hidden; border: 3px solid white; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.16); font-size: 1.7rem; }
+.xmas-active-team > div { display: grid; min-width: 0; gap: 1px; }
+.xmas-active-team > div > span,
+.xmas-active-team small { color: #69766c; font-size: .74rem; }
+.xmas-active-team strong { overflow: hidden; color: var(--pine); font-size: 1.15rem; text-overflow: ellipsis; white-space: nowrap; }
+.xmas-rest-tag { margin-left: auto; padding: 5px 9px; border-radius: 99px; background: #f6e5c3; color: #775324; font-size: .72rem; font-weight: 750; }
+
+.xmas-dice-control { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 17px; border-radius: 16px; background: #edf3e9; }
+.xmas-dice-face { display: grid; width: 76px; height: 76px; flex: 0 0 76px; place-items: center; border: 2px solid #d3b66f; border-radius: 19px; background: var(--paper); box-shadow: 0 4px 0 #e6d7b5, 0 8px 20px rgba(32,67,46,.1); color: var(--pine); font-size: 2.4rem; font-weight: 900; }
+.xmas-dice-face-rolling { animation: xmas-dice-roll .65s ease-in-out infinite; }
+.xmas-button { display: inline-flex; min-height: 45px; align-items: center; justify-content: center; padding: 11px 17px; border: 1px solid transparent; border-radius: 12px; font-size: .92rem; font-weight: 800; text-decoration: none; transition: transform .16s ease, background .16s ease, box-shadow .16s ease; }
+.xmas-button:hover:not(:disabled) { transform: translateY(-2px); }
+.xmas-button:disabled { opacity: .52; }
+.xmas-button-roll { min-width: 132px; border-color: var(--pine); background: var(--pine); box-shadow: 0 4px 0 #0c3526; color: white; font-size: 1rem; }
+.xmas-button-primary { border-color: var(--pine); background: var(--pine); color: white; box-shadow: 0 4px 0 #0c3526; }
+.xmas-button-secondary { border-color: #d2e0d2; background: #edf3e9; color: var(--pine); }
+.xmas-button-quiet { border-color: rgba(255,255,255,.36); background: rgba(255,255,255,.08); color: #f8f2e4; }
+.xmas-manual-control { margin-top: 21px; padding-top: 17px; border-top: 1px solid var(--line); }
+.xmas-subheading { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; color: var(--pine); font-size: .91rem; font-weight: 800; }
+.xmas-subheading span:last-child { color: #7d887d; font-size: .72rem; font-weight: 550; }
+.xmas-manual-row { display: flex; gap: 9px; }
+.xmas-manual-row input { width: 88px; padding: 9px; border: 1px solid #d9cebb; border-radius: 10px; background: white; color: var(--pine); font-weight: 800; text-align: center; }
+.xmas-manual-row .xmas-button { flex: 1; }
+.xmas-step-buttons { display: flex; gap: 7px; margin-top: 10px; }
+.xmas-step-buttons button { width: 40px; height: 35px; border-radius: 9px; font-weight: 800; }
+.xmas-step-buttons button:disabled { opacity: .48; }
+
+.xmas-status-heading { margin-bottom: 13px; }
+.xmas-team-status-list { display: grid; gap: 8px; }
+.xmas-team-status { display: flex; min-width: 0; align-items: center; gap: 11px; padding: 9px 10px; border: 1px solid #eee5d7; border-radius: 13px; background: #fffdfa; }
+.xmas-team-status.is-current { border-color: #9ab79a; background: #edf4e9; box-shadow: inset 3px 0 var(--pine); }
+.xmas-status-avatar { display: grid; flex: 0 0 39px; width: 39px; height: 39px; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.15); font-size: 1.3rem; }
+.xmas-status-team-copy { display: grid; flex: 1; min-width: 0; gap: 2px; }
+.xmas-status-team-copy strong { overflow: hidden; color: var(--ink); font-size: .91rem; text-overflow: ellipsis; white-space: nowrap; }
+.xmas-status-team-copy > span { color: #737e73; font-size: .73rem; }
+.xmas-turn-pill { flex: 0 0 auto; padding: 5px 8px; border-radius: 99px; background: var(--pine); color: white; font-size: .65rem; font-weight: 750; }
+.xmas-control-actions { display: flex; grid-area: actions; gap: 10px; }
+.xmas-control-actions .xmas-button-primary { flex: 1; }
+.xmas-fullscreen-button { position: fixed; z-index: 60; top: 18px; right: 18px; padding: 9px 14px; border: 1px solid rgba(224,195,128,.8); border-radius: 11px; background: #164433; color: #fff8e9; font-size: .84rem; font-weight: 800; }
+.xmas-fullscreen-button.is-hidden { display: none; }
+
+/* Projector board */
+.xmas-game-page { position: relative; display: grid; width: 100vw; height: 100vh; overflow: hidden; place-items: center; }
+.xmas-game-board-area { display: grid; width: 100%; height: 100%; padding: 18px; place-items: center; }
+.xmas-board-shell { width: min(calc(100vw - 36px), calc((100vh - 36px) * 16 / 9)); aspect-ratio: 16 / 9; padding: clamp(7px, .8vw, 15px); border: 1px solid rgba(231,199,125,.86); border-radius: clamp(16px, 2vw, 30px); background: linear-gradient(145deg,#246044,#143c2e 52%,#0e3327); box-shadow: 0 20px 65px rgba(4,20,14,.45), inset 0 0 0 3px rgba(255,255,255,.05), inset 0 0 36px rgba(255,244,204,.08); }
+.xmas-board-grid { position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: clamp(4px,.62vw,11px); }
+.xmas-cell { --tile-bg: #fffaf0; --tile-edge: #dfd2b9; position: relative; z-index: 1; display: flex; min-width: 0; min-height: 0; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(5px,.65vw,12px); border: 2px solid var(--tile-edge); border-radius: clamp(8px,1vw,17px); background: linear-gradient(145deg,#fffdf8,var(--tile-bg)); box-shadow: 0 4px 0 rgba(7,30,20,.14), 0 8px 17px rgba(4,24,16,.11); color: #284033; container-type: inline-size; transition: transform .22s ease, box-shadow .22s ease; }
+.xmas-cell[data-board-cell="1"] { --tile-bg: #e6f0e5; --tile-edge: #83a487; }
+.xmas-cell[data-board-cell="2"], .xmas-cell[data-board-cell="4"], .xmas-cell[data-board-cell="8"], .xmas-cell[data-board-cell="11"] { --tile-bg: #f3f3df; --tile-edge: #c5b36f; }
+.xmas-cell[data-board-cell="3"], .xmas-cell[data-board-cell="9"] { --tile-bg: #e9f3f4; --tile-edge: #a8c9c9; }
+.xmas-cell[data-board-cell="5"] { --tile-bg: #fff4d9; --tile-edge: #d7ba78; }
+.xmas-cell[data-board-cell="6"], .xmas-cell[data-board-cell="7"], .xmas-cell[data-board-cell="10"] { --tile-bg: #edf2e9; --tile-edge: #b8c9ad; }
+.xmas-cell[data-board-cell="12"] { --tile-bg: #f9e9dc; --tile-edge: #cf9270; }
+.xmas-cell-current { z-index: 2; transform: scale(1.025); border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(255,248,224,.98), 0 0 0 6px var(--gold), 0 9px 24px rgba(7,30,20,.3); }
+.xmas-cell-meta { display: flex; align-items: center; justify-content: space-between; min-height: 20px; }
+.xmas-cell-number { display: grid; min-width: clamp(21px,2.2cqw,31px); height: clamp(21px,2.2cqw,31px); place-items: center; border-radius: 9px; background: var(--pine); box-shadow: 0 2px 0 rgba(13,41,29,.18); color: #fff9ed; font-size: clamp(11px,2cqw,17px); font-weight: 900; }
+.xmas-cell-arrow { color: #839383; font-size: clamp(14px,2.7cqw,23px); font-weight: 800; line-height: 1; }
+.xmas-cell-start .xmas-cell-number { background: #39734b; }
+.xmas-cell-end .xmas-cell-number { background: var(--red); }
+.xmas-cell-content { display: flex; min-height: 0; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: clamp(3px,.5cqw,8px); padding: 0 3px 2px; text-align: center; }
+.xmas-cell-icon { font-size: clamp(30px,8cqw,62px); line-height: 1; filter: drop-shadow(0 2px 1px rgba(24,56,39,.12)); }
+.xmas-cell-name { display: block; max-width: 100%; color: #263e30; font-size: clamp(15px,4.8cqw,28px); font-weight: 850; letter-spacing: .025em; line-height: 1.2; overflow-wrap: anywhere; }
+.xmas-cell-start .xmas-cell-name, .xmas-cell-end .xmas-cell-name { color: var(--pine); }
+.xmas-pieces { position: absolute; right: 4px; bottom: 4px; left: 4px; display: flex; justify-content: center; gap: clamp(2px,.35cqw,5px); pointer-events: none; }
+.xmas-piece { display: grid; width: clamp(23px,5.5cqw,43px); height: clamp(23px,5.5cqw,43px); flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: clamp(12px,2.7cqw,21px); }
+
+.xmas-center { position: relative; z-index: 0; display: flex; min-width: 0; min-height: 0; grid-column: 2 / span 2; grid-row: 2 / span 2; flex-direction: column; justify-content: center; overflow: hidden; padding: clamp(12px,2.1vw,29px); border: 1px solid #decca5; border-radius: clamp(12px,1.6vw,24px); background: radial-gradient(ellipse at 50% 2%,#fffef7 0%,#fffaf0 69%,#f3ead7 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.55), 0 7px 20px rgba(5,31,19,.16); }
+.xmas-center::before { position: absolute; right: 10px; bottom: 8px; left: 10px; height: 5px; border-radius: 99px; background: repeating-linear-gradient(90deg,#52835d 0 13px,transparent 13px 22px); content: ""; opacity: .35; }
+.xmas-center-snow { position: absolute; color: #d8bd7c; }
+.xmas-center-snow-left { top: 8%; left: 8%; font-size: clamp(17px,2vw,29px); }
+.xmas-center-snow-right { top: 18%; right: 8%; font-size: clamp(13px,1.5vw,22px); }
+.xmas-center-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: center; justify-items: center; gap: clamp(8px,1.2vw,19px); text-align: center; }
+.xmas-center-train, .xmas-center-tree { font-size: clamp(25px,4.7vw,62px); line-height: 1; }
+.xmas-center-kicker { margin: 0 0 2px; color: #a47d39; font-size: clamp(8px,1vw,12px); font-weight: 800; letter-spacing: .23em; }
+.xmas-center-heading h1 { margin: 0; color: var(--pine); font-size: clamp(19px,2.6vw,36px); font-weight: 900; letter-spacing: .065em; line-height: 1.15; }
+.xmas-center-subtitle { margin: 3px 0 0; color: #788271; font-size: clamp(10px,1.16vw,15px); letter-spacing: .08em; }
+.xmas-center-rule { display: flex; align-items: center; gap: 12px; width: 65%; margin: clamp(7px,1vw,13px) auto; color: var(--gold); font-size: 12px; }
+.xmas-center-rule::before, .xmas-center-rule::after { height: 1px; flex: 1; background: #dfd1b5; content: ""; }
+.xmas-turn-card { display: flex; min-height: 0; align-items: center; justify-content: space-between; gap: 8px; padding: clamp(8px,1.15vw,15px) clamp(10px,1.6vw,22px); border: 1px solid rgba(224,198,139,.66); border-radius: 15px; background: linear-gradient(120deg,#1a4e3a,#123a2d); box-shadow: 0 5px 12px rgba(19,57,40,.16); color: #fffaf0; }
+.xmas-turn-info { display: grid; min-width: 0; gap: 3px; }
+.xmas-turn-label { color: #d8c898; font-size: clamp(9px,1.05vw,13px); font-weight: 700; letter-spacing: .08em; }
+.xmas-turn-name-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.xmas-current-team-token { display: grid; width: clamp(24px,3vw,37px); height: clamp(24px,3vw,37px); flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid #fff8e7; border-radius: 50%; font-size: clamp(13px,1.5vw,19px); }
+.xmas-turn-name { overflow: hidden; color: white; font-size: clamp(13px,1.7vw,22px); text-overflow: ellipsis; white-space: nowrap; }
+.xmas-turn-position { color: #d9e6d9; font-size: clamp(9px,1vw,13px); }
+.xmas-board-die { display: grid; width: clamp(40px,5vw,62px); height: clamp(40px,5vw,62px); flex: 0 0 auto; place-items: center; border: 2px solid #ebcf83; border-radius: 15px; background: #fffaf0; box-shadow: 0 3px 0 #ccb271; color: var(--pine); font-size: clamp(21px,3vw,35px); font-weight: 900; }
+.xmas-board-die-rolling { animation: xmas-dice-roll .65s ease-in-out infinite; }
+.xmas-center-footer { margin: clamp(6px,.8vw,10px) 0 0; color: #73806e; font-size: clamp(9px,1.03vw,13px); text-align: center; }
+.xmas-center-footer span { margin: 0 4px; color: #b08c4b; }
+
+.xmas-waiting-page { padding: 22px; }
+.xmas-waiting-card { width: min(520px,100%); padding: clamp(28px,6vw,60px); border: 1px solid #d5bd83; border-radius: 25px; background: var(--cream); box-shadow: 0 24px 60px rgba(4,23,15,.35); text-align: center; }
+.xmas-waiting-card > span { display: block; margin-bottom: 13px; font-size: 4rem; }
+.xmas-waiting-card h1 { margin: 5px 0 12px; color: var(--pine); font-size: clamp(2rem,5vw,3rem); }
+.xmas-waiting-card > p:last-child { margin: 0; color: var(--muted); }
+
+/* Event and winner screens */
+.xmas-modal-backdrop { position: fixed; z-index: 100; inset: 0; display: grid; padding: 20px; place-items: center; background: rgba(8,29,20,.72); backdrop-filter: blur(5px); animation: xmas-fade-in .2s ease-out; }
+.xmas-event-modal { position: relative; width: min(620px,100%); max-height: min(90vh,780px); overflow-y: auto; padding: clamp(26px,5vw,48px); border: 1px solid #dfc98e; border-radius: 25px; background: var(--cream); box-shadow: 0 25px 80px rgba(0,0,0,.35), inset 0 0 0 5px rgba(255,255,255,.55); text-align: center; animation: xmas-pop-in .24s cubic-bezier(.2,.8,.2,1); }
+.xmas-modal-sparkle { position: absolute; top: 17px; right: 21px; color: var(--gold); font-size: 1.35rem; }
+.xmas-event-icon { display: grid; width: 82px; height: 82px; margin: 0 auto 12px; place-items: center; border: 1px solid #d6c18d; border-radius: 50%; background: #edf3e9; box-shadow: 0 5px 0 #d9dfd0; font-size: 2.75rem; }
+.xmas-event-modal h2 { margin: 5px 0 13px; color: var(--pine); font-size: clamp(1.5rem,4vw,2rem); }
+.xmas-event-message { margin: 0; color: #39483d; font-size: clamp(1.05rem,2.7vw,1.38rem); font-weight: 650; line-height: 1.7; white-space: pre-line; }
+.xmas-host-note { display: grid; gap: 4px; margin: 18px 0 0; padding: 12px 14px; border: 1px solid #e5d7b6; border-radius: 12px; background: #f5eedc; color: #66552f; font-size: .9rem; line-height: 1.5; text-align: left; }
+.xmas-host-note strong { color: #7a5a1e; font-size: .75rem; letter-spacing: .06em; }
+.xmas-modal-button { min-width: 150px; margin-top: 23px; }
+.xmas-win-screen { position: fixed; z-index: 200; inset: 0; display: grid; overflow: hidden; padding: 22px; place-items: center; }
+.xmas-win-card { position: relative; z-index: 1; width: min(650px,100%); padding: clamp(32px,6vw,62px); border: 1px solid #e0c27e; border-radius: 28px; background: var(--cream); box-shadow: 0 25px 90px rgba(0,0,0,.3), inset 0 0 0 6px rgba(255,255,255,.55); text-align: center; }
+.xmas-win-star { position: absolute; top: 22px; right: 28px; color: var(--gold); font-size: 1.7rem; }
+.xmas-win-card > .xmas-eyebrow { color: #9b7738; }
+.xmas-win-icon { margin: 11px 0 2px; font-size: clamp(4rem,9vw,6.5rem); animation: xmas-win-bob 1.4s ease-in-out infinite; }
+.xmas-win-card h1 { margin: 0 0 22px; color: var(--pine); font-size: clamp(2rem,6vw,3.35rem); font-weight: 900; }
+.xmas-winner-team { display: inline-flex; max-width: 100%; align-items: center; gap: 13px; padding: 10px 22px 10px 10px; border: 1px solid #d9ceba; border-radius: 999px; background: #fff; }
+.xmas-winner-avatar { display: grid; width: 53px; height: 53px; flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.18); font-size: 1.9rem; }
+.xmas-winner-team strong { overflow: hidden; color: var(--pine); font-size: clamp(1.2rem,3vw,1.7rem); text-overflow: ellipsis; white-space: nowrap; }
+.xmas-win-message { margin: 21px 0 0; color: #6a756b; font-size: 1.08rem; }
+.xmas-win-garland { margin-top: 24px; color: #718473; font-size: 1.2rem; }
+.xmas-win-restart { min-width: 170px; margin-top: 22px; }
+.xmas-confetti { position: absolute; inset: 0; overflow: hidden; }
+.xmas-confetti span { position: absolute; top: -8%; color: #ecd08a; font-size: clamp(14px,2vw,26px); animation: xmas-fall linear infinite; }
+.xmas-confetti span:nth-child(3n) { color: #f1e7cf; }
+.xmas-confetti span:nth-child(3n + 1) { color: #d17a68; }
+
+@keyframes xmas-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes xmas-pop-in { from { opacity: 0; transform: translateY(9px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes xmas-dice-roll { 0%,100% { transform: rotate(0); } 30% { transform: rotate(-12deg) scale(1.06); } 65% { transform: rotate(13deg) scale(.96); } }
+@keyframes xmas-win-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes xmas-fall { from { transform: translateY(-5vh) rotate(0); } to { transform: translateY(112vh) rotate(300deg); } }
+@keyframes piece-bounce { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.08); } }
+.piece-arrived { animation: piece-bounce .5s ease-in-out 2; }
+
+@media (max-width: 900px) {
+  .xmas-console-page { padding-top: 24px; }
+  .xmas-control-layout { grid-template-columns: minmax(0,1fr); grid-template-areas: "play" "status" "actions"; }
+  .xmas-team-status-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .xmas-board-shell { padding: 7px; }
+  .xmas-board-grid { gap: 4px; }
+  .xmas-cell { padding: 5px; border-width: 1px; }
+  .xmas-cell-icon { font-size: clamp(23px,6cqw,44px); }
+  .xmas-cell-name { font-size: clamp(14px,4.4cqw,20px); }
+  .xmas-cell-number { min-width: 20px; height: 20px; font-size: 11px; }
+  .xmas-pieces { gap: 1px; }
+  .xmas-piece { width: clamp(20px,5.2cqw,31px); height: clamp(20px,5.2cqw,31px); }
+  .xmas-center { padding: 9px; }
+  .xmas-center-heading { gap: 4px; }
+  .xmas-center-train, .xmas-center-tree { font-size: clamp(20px,4.4vw,38px); }
+  .xmas-center-heading h1 { font-size: clamp(15px,2.8vw,24px); }
+  .xmas-turn-card { padding: 6px 8px; }
+  .xmas-board-die { width: 35px; height: 35px; border-radius: 10px; font-size: 19px; }
+}
+
+@media (max-width: 560px) {
+  .xmas-setup-page { align-items: start; padding: 15px 12px; }
+  .xmas-setup-card { padding: 25px 18px; border-radius: 21px; }
+  .xmas-setup-brand { margin-bottom: 25px; }
+  .xmas-setup-train { font-size: 2.8rem; }
+  .xmas-team-fields { grid-template-columns: 1fr; }
+  .xmas-console-page { padding: 19px 12px 30px; }
+  .xmas-console-header { margin: 8px 0 19px; }
+  .xmas-console-mark { font-size: 2.5rem; }
+  .xmas-control-card, .xmas-status-card { padding: 18px; border-radius: 18px; }
+  .xmas-team-status-list { grid-template-columns: 1fr; }
+  .xmas-control-actions { flex-direction: column; }
+  .xmas-dice-control { gap: 12px; padding: 12px; }
+  .xmas-dice-face { width: 62px; height: 62px; flex-basis: 62px; }
+  .xmas-board-shell { width: calc(100vw - 12px); padding: 4px; border-radius: 12px; }
+  .xmas-board-grid { gap: 2px; }
+  .xmas-cell { padding: 2px; border-radius: 6px; }
+  .xmas-cell-meta { min-height: 15px; }
+  .xmas-cell-number { min-width: 15px; height: 15px; border-radius: 5px; font-size: 9px; }
+  .xmas-cell-arrow { font-size: 12px; }
+  .xmas-cell-icon { font-size: clamp(16px,5vw,26px); }
+  .xmas-cell-content { gap: 2px; padding-bottom: 0; }
+  .xmas-cell-name { font-size: clamp(8px,2.8vw,13px); letter-spacing: 0; }
+  .xmas-pieces { bottom: 1px; }
+  .xmas-piece { width: clamp(14px,4.3vw,22px); height: clamp(14px,4.3vw,22px); border-width: 1px; font-size: 10px; }
+  .xmas-center { padding: 4px; border-radius: 7px; }
+  .xmas-center-heading { grid-template-columns: auto 1fr auto; gap: 2px; }
+  .xmas-center-train, .xmas-center-tree { font-size: clamp(15px,4vw,23px); }
+  .xmas-center-kicker { font-size: 6px; letter-spacing: .13em; }
+  .xmas-center-heading h1 { font-size: clamp(11px,2.9vw,16px); letter-spacing: .01em; }
+  .xmas-center-subtitle { margin-top: 1px; font-size: clamp(7px,1.8vw,10px); }
+  .xmas-center-rule { margin: 3px auto; font-size: 8px; }
+  .xmas-turn-card { gap: 3px; padding: 3px 4px; border-radius: 7px; }
+  .xmas-turn-label { font-size: 7px; }
+  .xmas-turn-name-row { gap: 3px; }
+  .xmas-current-team-token { width: 17px; height: 17px; border-width: 1px; font-size: 9px; }
+  .xmas-turn-name { font-size: clamp(8px,2.2vw,12px); }
+  .xmas-turn-position { font-size: 7px; }
+  .xmas-board-die { width: 25px; height: 25px; border-radius: 6px; font-size: 14px; }
+  .xmas-center-footer { margin-top: 3px; font-size: 7px; }
+  .xmas-center-snow-left, .xmas-center-snow-right { display: none; }
+  .xmas-event-modal { padding: 25px 19px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.animate-fadeIn { animation: fadeIn .3s ease-out; }
+.animate-scaleIn { animation: scaleIn .3s ease-out; }
