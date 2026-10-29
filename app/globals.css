@@ -211,7 +211,7 @@ button:disabled { cursor: not-allowed; }
 .xmas-game-board-area { display: grid; width: 100%; height: 100%; padding: 18px 96px 18px 18px; place-items: center; }
 .xmas-game-page.is-fullscreen .xmas-game-board-area { padding: 18px; }
 .xmas-board-shell { width: min(100%, calc((100vh - 36px) * 16 / 9)); aspect-ratio: 16 / 9; padding: clamp(7px, .8vw, 15px); border: 1px solid rgba(231,199,125,.86); border-radius: clamp(16px, 2vw, 30px); background: linear-gradient(145deg,#246044,#143c2e 52%,#0e3327); box-shadow: 0 20px 65px rgba(4,20,14,.45), inset 0 0 0 3px rgba(255,255,255,.05), inset 0 0 36px rgba(255,244,204,.08); }
-.xmas-board-grid { --board-gap: clamp(4px,.62vw,11px); --piece-size: clamp(3rem,4vw,3.5rem); --piece-inset: clamp(9px,1vw,14px); --piece-stack-gap: clamp(4px,.5vw,8px); position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: var(--board-gap); }
+.xmas-board-grid { --board-gap: clamp(4px,.62vw,11px); --piece-size: clamp(3.75rem,5vw,4.5rem); --piece-inset: clamp(9px,1vw,14px); --piece-stack-gap: clamp(4px,.5vw,8px); position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: var(--board-gap); }
 .xmas-cell { --tile-bg: #fffaf0; --tile-edge: #dfd2b9; position: relative; z-index: 1; display: flex; min-width: 0; min-height: 0; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(5px,.65vw,12px); border: 2px solid var(--tile-edge); border-radius: clamp(8px,1vw,17px); background: linear-gradient(145deg,#fffdf8,var(--tile-bg)); box-shadow: 0 4px 0 rgba(7,30,20,.14), 0 8px 17px rgba(4,24,16,.11); color: #284033; container-type: inline-size; transition: box-shadow .22s ease, border-color .22s ease; }
 .xmas-cell[data-board-cell="1"] { --tile-bg: #e6f0e5; --tile-edge: #83a487; }
 .xmas-cell[data-board-cell="2"], .xmas-cell[data-board-cell="4"], .xmas-cell[data-board-cell="8"], .xmas-cell[data-board-cell="11"] { --tile-bg: #f3f3df; --tile-edge: #c5b36f; }
@@ -230,7 +230,7 @@ button:disabled { cursor: not-allowed; }
 .xmas-cell-name { display: block; max-width: 100%; color: #263e30; font-size: 2rem; font-weight: 850; letter-spacing: .025em; line-height: 1.1; overflow-wrap: anywhere; }
 .xmas-cell-start .xmas-cell-name, .xmas-cell-end .xmas-cell-name { color: var(--pine); }
 .xmas-piece-layer { position: absolute; z-index: 5; inset: 0; overflow: visible; pointer-events: none; }
-.xmas-piece { display: grid; width: var(--piece-size); height: var(--piece-size); place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: 2rem; line-height: 1; }
+.xmas-piece { display: grid; width: var(--piece-size); height: var(--piece-size); place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: 2.5rem; line-height: 1; }
 .xmas-piece-pin { position: absolute; left: var(--piece-edge); top: var(--piece-center); transform: translate3d(calc(-100% - var(--piece-inset)), calc(-50% + var(--piece-stack-offset)), 0); transition: left .28s linear, top .28s linear, transform .28s linear; will-change: left, top, transform; }
 
 .xmas-center { display: flex; min-width: 0; min-height: 0; grid-column: 2 / span 2; grid-row: 2 / span 2; flex-direction: column; align-items: center; justify-content: center; gap: clamp(12px,1.5vw,22px); overflow: hidden; padding: clamp(12px,2vw,28px); border: 1px solid #decca5; border-radius: clamp(12px,1.6vw,24px); background: radial-gradient(ellipse at 50% 2%,#fffef7 0%,#fffaf0 69%,#f3ead7 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.55), 0 7px 20px rgba(5,31,19,.16); text-align: center; }
@@ -284,7 +284,7 @@ button:disabled { cursor: not-allowed; }
   .xmas-control-layout { grid-template-columns: minmax(0,1fr); grid-template-areas: "play" "status" "actions"; }
   .xmas-team-status-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .xmas-board-shell { padding: 7px; }
-  .xmas-board-grid { --board-gap: 4px; --piece-size: 2.75rem; gap: var(--board-gap); }
+  .xmas-board-grid { --board-gap: 4px; --piece-size: 3.25rem; gap: var(--board-gap); }
   .xmas-cell { padding: 5px; border-width: 1px; }
   .xmas-cell-icon { font-size: clamp(2.5rem,6cqw,3rem); }
   .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
@@ -314,7 +314,7 @@ button:disabled { cursor: not-allowed; }
   .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
   .xmas-game-board-area { height: auto; min-height: 100vh; padding: 14px 0; }
   .xmas-board-shell { height: auto; aspect-ratio: auto; }
-  .xmas-board-grid { --board-gap: 2px; --piece-size: 2.25rem; grid-template-rows: repeat(4,minmax(250px,auto)); gap: var(--board-gap); }
+  .xmas-board-grid { --board-gap: 2px; --piece-size: 2.75rem; grid-template-rows: repeat(4,minmax(250px,auto)); gap: var(--board-gap); }
   .xmas-cell { padding: 2px; border-radius: 6px; }
   .xmas-cell-number { min-width: 2.75rem; height: 2.75rem; border-radius: 9px; }
   .xmas-cell-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; grid-template-rows: 2.75rem auto; align-items: start; min-height: 5rem; gap: 2px; }
