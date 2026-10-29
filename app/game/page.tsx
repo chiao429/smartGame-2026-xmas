@@ -51,14 +51,12 @@ export default function GamePage() {
   }
 
   return (
-    <main className="xmas-game-page">
+    <main className={`xmas-game-page${isFullscreen ? " is-fullscreen" : ""}`}>
       {displayControls}
       <div className="xmas-game-board-area">
         <GameBoard
           teams={gameState.teams}
           currentTeamIndex={gameState.currentTeamIndex}
-          diceValue={gameState.diceValue}
-          isRolling={gameState.isRolling}
         />
       </div>
 

@@ -7,7 +7,7 @@ import { CELLS } from "@/data/cells";
 
 interface GameContextType {
   gameState: GameState;
-  startGame: (teams: Team[]) => void;
+  startGame: (teams: Team[], startingTeamIndex: number) => void;
   rollDice: () => void;
   manualMove: (steps: number) => void;
   closeEvent: () => void;
@@ -97,11 +97,11 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const startGame = useCallback((teams: Team[]) => {
+  const startGame = useCallback((teams: Team[], startingTeamIndex: number) => {
     if (socket) {
       socket.emit('game:start', {
         teams,
-        currentTeamIndex: 0,
+        currentTeamIndex: startingTeamIndex,
         diceValue: null,
         isRolling: false,
         showEvent: false,

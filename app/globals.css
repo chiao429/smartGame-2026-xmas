@@ -119,6 +119,13 @@ button:disabled { cursor: not-allowed; }
 .xmas-team-field-caption { color: var(--muted); font-size: .71rem; font-weight: 700; }
 .xmas-team-field input { width: 100%; min-width: 0; padding: 5px 0; border: 0; border-bottom: 1px solid #e5ddce; background: transparent; color: var(--ink); font-size: .96rem; font-weight: 700; }
 .xmas-team-field input:focus { border-color: var(--pine); outline: none; }
+.xmas-first-team-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+.xmas-first-team-option { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 11px; border: 1px solid var(--line); border-radius: 15px; background: white; cursor: pointer; transition: border-color .16s ease, background .16s ease; }
+.xmas-first-team-option.is-selected { border-color: var(--pine); background: #edf4e9; box-shadow: inset 0 0 0 1px var(--pine); }
+.xmas-first-team-option:focus-within { outline: 2px solid var(--gold); outline-offset: 2px; }
+.xmas-first-team-copy { display: grid; flex: 1; min-width: 0; gap: 3px; }
+.xmas-first-team-copy strong { overflow: hidden; color: var(--ink); font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
+.xmas-first-team-option input[type="radio"] { width: 18px; height: 18px; flex: 0 0 auto; margin: 0; accent-color: var(--pine); }
 
 .xmas-start-button {
   display: block;
@@ -201,8 +208,9 @@ button:disabled { cursor: not-allowed; }
 
 /* Projector board */
 .xmas-game-page { position: relative; display: grid; width: 100vw; height: 100vh; overflow: hidden; place-items: center; }
-.xmas-game-board-area { display: grid; width: 100%; height: 100%; padding: 18px; place-items: center; }
-.xmas-board-shell { width: min(calc(100vw - 36px), calc((100vh - 36px) * 16 / 9)); aspect-ratio: 16 / 9; padding: clamp(7px, .8vw, 15px); border: 1px solid rgba(231,199,125,.86); border-radius: clamp(16px, 2vw, 30px); background: linear-gradient(145deg,#246044,#143c2e 52%,#0e3327); box-shadow: 0 20px 65px rgba(4,20,14,.45), inset 0 0 0 3px rgba(255,255,255,.05), inset 0 0 36px rgba(255,244,204,.08); }
+.xmas-game-board-area { display: grid; width: 100%; height: 100%; padding: 18px 96px 18px 18px; place-items: center; }
+.xmas-game-page.is-fullscreen .xmas-game-board-area { padding: 18px; }
+.xmas-board-shell { width: min(100%, calc((100vh - 36px) * 16 / 9)); aspect-ratio: 16 / 9; padding: clamp(7px, .8vw, 15px); border: 1px solid rgba(231,199,125,.86); border-radius: clamp(16px, 2vw, 30px); background: linear-gradient(145deg,#246044,#143c2e 52%,#0e3327); box-shadow: 0 20px 65px rgba(4,20,14,.45), inset 0 0 0 3px rgba(255,255,255,.05), inset 0 0 36px rgba(255,244,204,.08); }
 .xmas-board-grid { position: relative; display: grid; width: 100%; height: 100%; grid-template-columns: repeat(4,minmax(0,1fr)); grid-template-rows: repeat(4,minmax(0,1fr)); gap: clamp(4px,.62vw,11px); }
 .xmas-cell { --tile-bg: #fffaf0; --tile-edge: #dfd2b9; position: relative; z-index: 1; display: flex; min-width: 0; min-height: 0; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(5px,.65vw,12px); border: 2px solid var(--tile-edge); border-radius: clamp(8px,1vw,17px); background: linear-gradient(145deg,#fffdf8,var(--tile-bg)); box-shadow: 0 4px 0 rgba(7,30,20,.14), 0 8px 17px rgba(4,24,16,.11); color: #284033; container-type: inline-size; transition: transform .22s ease, box-shadow .22s ease; }
 .xmas-cell[data-board-cell="1"] { --tile-bg: #e6f0e5; --tile-edge: #83a487; }
@@ -212,41 +220,21 @@ button:disabled { cursor: not-allowed; }
 .xmas-cell[data-board-cell="6"], .xmas-cell[data-board-cell="7"], .xmas-cell[data-board-cell="10"] { --tile-bg: #edf2e9; --tile-edge: #b8c9ad; }
 .xmas-cell[data-board-cell="12"] { --tile-bg: #f9e9dc; --tile-edge: #cf9270; }
 .xmas-cell-current { z-index: 2; transform: scale(1.025); border-color: var(--gold) !important; box-shadow: 0 0 0 3px rgba(255,248,224,.98), 0 0 0 6px var(--gold), 0 9px 24px rgba(7,30,20,.3); }
-.xmas-cell-meta { display: flex; align-items: center; justify-content: space-between; min-height: 20px; }
-.xmas-cell-number { display: grid; min-width: clamp(21px,2.2cqw,31px); height: clamp(21px,2.2cqw,31px); place-items: center; border-radius: 9px; background: var(--pine); box-shadow: 0 2px 0 rgba(13,41,29,.18); color: #fff9ed; font-size: clamp(11px,2cqw,17px); font-weight: 900; }
-.xmas-cell-arrow { color: #839383; font-size: clamp(14px,2.7cqw,23px); font-weight: 800; line-height: 1; }
+.xmas-cell-meta { display: flex; align-items: center; justify-content: space-between; min-height: 2.75rem; gap: 8px; }
+.xmas-cell-number { display: grid; min-width: 2.75rem; height: 2.75rem; place-items: center; border-radius: 12px; background: var(--pine); box-shadow: 0 2px 0 rgba(13,41,29,.18); color: #fff9ed; font-size: 2rem; font-weight: 900; }
 .xmas-cell-start .xmas-cell-number { background: #39734b; }
 .xmas-cell-end .xmas-cell-number { background: var(--red); }
-.xmas-cell-content { display: flex; min-height: 0; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: clamp(3px,.5cqw,8px); padding: 0 3px 2px; text-align: center; }
-.xmas-cell-icon { font-size: clamp(30px,8cqw,62px); line-height: 1; filter: drop-shadow(0 2px 1px rgba(24,56,39,.12)); }
-.xmas-cell-name { display: block; max-width: 100%; color: #263e30; font-size: clamp(15px,4.8cqw,28px); font-weight: 850; letter-spacing: .025em; line-height: 1.2; overflow-wrap: anywhere; }
+.xmas-cell-content { display: flex; min-height: 0; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: clamp(2px,.4cqw,5px); padding: 0 3px; text-align: center; }
+.xmas-cell-icon { font-size: clamp(2.75rem,8cqw,4rem); line-height: 1; filter: drop-shadow(0 2px 1px rgba(24,56,39,.12)); }
+.xmas-cell-name { display: block; max-width: 100%; color: #263e30; font-size: 2rem; font-weight: 850; letter-spacing: .025em; line-height: 1.1; overflow-wrap: anywhere; }
 .xmas-cell-start .xmas-cell-name, .xmas-cell-end .xmas-cell-name { color: var(--pine); }
-.xmas-pieces { position: absolute; right: 4px; bottom: 4px; left: 4px; display: flex; justify-content: center; gap: clamp(2px,.35cqw,5px); pointer-events: none; }
-.xmas-piece { display: grid; width: clamp(23px,5.5cqw,43px); height: clamp(23px,5.5cqw,43px); flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: clamp(12px,2.7cqw,21px); }
+.xmas-pieces { display: flex; flex: 0 0 auto; justify-content: flex-end; gap: clamp(2px,.35cqw,5px); pointer-events: none; }
+.xmas-piece { display: grid; width: 2.75rem; height: 2.75rem; flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid white; border-radius: 50%; box-shadow: 0 2px 5px rgba(18,44,29,.25); font-size: 2rem; line-height: 1; }
 
-.xmas-center { position: relative; z-index: 0; display: flex; min-width: 0; min-height: 0; grid-column: 2 / span 2; grid-row: 2 / span 2; flex-direction: column; justify-content: center; overflow: hidden; padding: clamp(12px,2.1vw,29px); border: 1px solid #decca5; border-radius: clamp(12px,1.6vw,24px); background: radial-gradient(ellipse at 50% 2%,#fffef7 0%,#fffaf0 69%,#f3ead7 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.55), 0 7px 20px rgba(5,31,19,.16); }
-.xmas-center::before { position: absolute; right: 10px; bottom: 8px; left: 10px; height: 5px; border-radius: 99px; background: repeating-linear-gradient(90deg,#52835d 0 13px,transparent 13px 22px); content: ""; opacity: .35; }
-.xmas-center-snow { position: absolute; color: #d8bd7c; }
-.xmas-center-snow-left { top: 8%; left: 8%; font-size: clamp(17px,2vw,29px); }
-.xmas-center-snow-right { top: 18%; right: 8%; font-size: clamp(13px,1.5vw,22px); }
-.xmas-center-heading { display: grid; grid-template-columns: auto 1fr auto; align-items: center; justify-items: center; gap: clamp(8px,1.2vw,19px); text-align: center; }
-.xmas-center-train, .xmas-center-tree { font-size: clamp(25px,4.7vw,62px); line-height: 1; }
-.xmas-center-kicker { margin: 0 0 2px; color: #a47d39; font-size: clamp(8px,1vw,12px); font-weight: 800; letter-spacing: .23em; }
-.xmas-center-heading h1 { margin: 0; color: var(--pine); font-size: clamp(19px,2.6vw,36px); font-weight: 900; letter-spacing: .065em; line-height: 1.15; }
-.xmas-center-subtitle { margin: 3px 0 0; color: #788271; font-size: clamp(10px,1.16vw,15px); letter-spacing: .08em; }
-.xmas-center-rule { display: flex; align-items: center; gap: 12px; width: 65%; margin: clamp(7px,1vw,13px) auto; color: var(--gold); font-size: 12px; }
-.xmas-center-rule::before, .xmas-center-rule::after { height: 1px; flex: 1; background: #dfd1b5; content: ""; }
-.xmas-turn-card { display: flex; min-height: 0; align-items: center; justify-content: space-between; gap: 8px; padding: clamp(8px,1.15vw,15px) clamp(10px,1.6vw,22px); border: 1px solid rgba(224,198,139,.66); border-radius: 15px; background: linear-gradient(120deg,#1a4e3a,#123a2d); box-shadow: 0 5px 12px rgba(19,57,40,.16); color: #fffaf0; }
-.xmas-turn-info { display: grid; min-width: 0; gap: 3px; }
-.xmas-turn-label { color: #d8c898; font-size: clamp(9px,1.05vw,13px); font-weight: 700; letter-spacing: .08em; }
-.xmas-turn-name-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.xmas-current-team-token { display: grid; width: clamp(24px,3vw,37px); height: clamp(24px,3vw,37px); flex: 0 0 auto; place-items: center; overflow: hidden; border: 2px solid #fff8e7; border-radius: 50%; font-size: clamp(13px,1.5vw,19px); }
-.xmas-turn-name { overflow: hidden; color: white; font-size: clamp(13px,1.7vw,22px); text-overflow: ellipsis; white-space: nowrap; }
-.xmas-turn-position { color: #d9e6d9; font-size: clamp(9px,1vw,13px); }
-.xmas-board-die { display: grid; width: clamp(40px,5vw,62px); height: clamp(40px,5vw,62px); flex: 0 0 auto; place-items: center; border: 2px solid #ebcf83; border-radius: 15px; background: #fffaf0; box-shadow: 0 3px 0 #ccb271; color: var(--pine); font-size: clamp(21px,3vw,35px); font-weight: 900; }
-.xmas-board-die-rolling { animation: xmas-dice-roll .65s ease-in-out infinite; }
-.xmas-center-footer { margin: clamp(6px,.8vw,10px) 0 0; color: #73806e; font-size: clamp(9px,1.03vw,13px); text-align: center; }
-.xmas-center-footer span { margin: 0 4px; color: #b08c4b; }
+.xmas-center { display: flex; min-width: 0; min-height: 0; grid-column: 2 / span 2; grid-row: 2 / span 2; flex-direction: column; align-items: center; justify-content: center; gap: clamp(12px,1.5vw,22px); overflow: hidden; padding: clamp(12px,2vw,28px); border: 1px solid #decca5; border-radius: clamp(12px,1.6vw,24px); background: radial-gradient(ellipse at 50% 2%,#fffef7 0%,#fffaf0 69%,#f3ead7 100%); box-shadow: inset 0 0 0 4px rgba(255,255,255,.55), 0 7px 20px rgba(5,31,19,.16); text-align: center; }
+.xmas-turn-label { color: #a47d39; font-size: 2rem; font-weight: 800; letter-spacing: .03em; line-height: 1.1; }
+.xmas-turn-name { max-width: 100%; color: var(--pine); font-size: clamp(3rem,4vw,4rem); font-weight: 900; line-height: 1.1; overflow-wrap: anywhere; }
+.xmas-turn-position { color: #526552; font-size: 2rem; line-height: 1.1; overflow-wrap: anywhere; }
 
 .xmas-waiting-page { padding: 22px; }
 .xmas-waiting-card { width: min(520px,100%); padding: clamp(28px,6vw,60px); border: 1px solid #d5bd83; border-radius: 25px; background: var(--cream); box-shadow: 0 24px 60px rgba(4,23,15,.35); text-align: center; }
@@ -296,17 +284,15 @@ button:disabled { cursor: not-allowed; }
   .xmas-board-shell { padding: 7px; }
   .xmas-board-grid { gap: 4px; }
   .xmas-cell { padding: 5px; border-width: 1px; }
-  .xmas-cell-icon { font-size: clamp(23px,6cqw,44px); }
-  .xmas-cell-name { font-size: clamp(14px,4.4cqw,20px); }
-  .xmas-cell-number { min-width: 20px; height: 20px; font-size: 11px; }
-  .xmas-pieces { gap: 1px; }
-  .xmas-piece { width: clamp(20px,5.2cqw,31px); height: clamp(20px,5.2cqw,31px); }
-  .xmas-center { padding: 9px; }
-  .xmas-center-heading { gap: 4px; }
-  .xmas-center-train, .xmas-center-tree { font-size: clamp(20px,4.4vw,38px); }
-  .xmas-center-heading h1 { font-size: clamp(15px,2.8vw,24px); }
-  .xmas-turn-card { padding: 6px 8px; }
-  .xmas-board-die { width: 35px; height: 35px; border-radius: 10px; font-size: 19px; }
+  .xmas-cell-icon { font-size: clamp(2.5rem,6cqw,3rem); }
+  .xmas-pieces { gap: 3px; }
+  .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
+  .xmas-game-board-area { height: auto; min-height: 100vh; padding: 64px 14px 14px; }
+  .xmas-game-page.is-fullscreen .xmas-game-board-area { padding: 14px; }
+  .xmas-board-shell { height: auto; aspect-ratio: auto; }
+  .xmas-board-grid { height: auto; grid-template-rows: repeat(4,minmax(220px,auto)); }
+  .xmas-cell-icon { font-size: clamp(2.75rem,6cqw,3.25rem); }
+  .xmas-center { gap: 12px; padding: 18px; }
 }
 
 @media (max-width: 560px) {
@@ -324,32 +310,21 @@ button:disabled { cursor: not-allowed; }
   .xmas-dice-control { gap: 12px; padding: 12px; }
   .xmas-dice-face { width: 62px; height: 62px; flex-basis: 62px; }
   .xmas-board-shell { width: calc(100vw - 12px); padding: 4px; border-radius: 12px; }
-  .xmas-board-grid { gap: 2px; }
+  .xmas-game-page { height: auto; min-height: 100vh; overflow: auto; }
+  .xmas-game-board-area { height: auto; min-height: 100vh; padding: 14px 0; }
+  .xmas-board-shell { height: auto; aspect-ratio: auto; }
+  .xmas-board-grid { grid-template-rows: repeat(4,minmax(250px,auto)); gap: 2px; }
   .xmas-cell { padding: 2px; border-radius: 6px; }
-  .xmas-cell-meta { min-height: 15px; }
-  .xmas-cell-number { min-width: 15px; height: 15px; border-radius: 5px; font-size: 9px; }
-  .xmas-cell-arrow { font-size: 12px; }
-  .xmas-cell-icon { font-size: clamp(16px,5vw,26px); }
+  .xmas-cell-number { min-width: 2.75rem; height: 2.75rem; border-radius: 9px; }
+  .xmas-cell-meta { display: grid; grid-template-columns: minmax(0,1fr) auto; grid-template-rows: 2.75rem auto; align-items: start; min-height: 5rem; gap: 2px; }
+  .xmas-pieces { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; gap: 2px; }
+  .xmas-piece { width: 2.25rem; height: 2.25rem; font-size: 2rem; }
+  .xmas-cell-icon { font-size: clamp(2.75rem,12vw,3.5rem); }
   .xmas-cell-content { gap: 2px; padding-bottom: 0; }
-  .xmas-cell-name { font-size: clamp(8px,2.8vw,13px); letter-spacing: 0; }
+  .xmas-cell-name { font-size: 2rem; letter-spacing: 0; }
   .xmas-pieces { bottom: 1px; }
   .xmas-piece { width: clamp(14px,4.3vw,22px); height: clamp(14px,4.3vw,22px); border-width: 1px; font-size: 10px; }
-  .xmas-center { padding: 4px; border-radius: 7px; }
-  .xmas-center-heading { grid-template-columns: auto 1fr auto; gap: 2px; }
-  .xmas-center-train, .xmas-center-tree { font-size: clamp(15px,4vw,23px); }
-  .xmas-center-kicker { font-size: 6px; letter-spacing: .13em; }
-  .xmas-center-heading h1 { font-size: clamp(11px,2.9vw,16px); letter-spacing: .01em; }
-  .xmas-center-subtitle { margin-top: 1px; font-size: clamp(7px,1.8vw,10px); }
-  .xmas-center-rule { margin: 3px auto; font-size: 8px; }
-  .xmas-turn-card { gap: 3px; padding: 3px 4px; border-radius: 7px; }
-  .xmas-turn-label { font-size: 7px; }
-  .xmas-turn-name-row { gap: 3px; }
-  .xmas-current-team-token { width: 17px; height: 17px; border-width: 1px; font-size: 9px; }
-  .xmas-turn-name { font-size: clamp(8px,2.2vw,12px); }
-  .xmas-turn-position { font-size: 7px; }
-  .xmas-board-die { width: 25px; height: 25px; border-radius: 6px; font-size: 14px; }
-  .xmas-center-footer { margin-top: 3px; font-size: 7px; }
-  .xmas-center-snow-left, .xmas-center-snow-right { display: none; }
+  .xmas-center { gap: 10px; padding: 14px; border-radius: 7px; }
   .xmas-event-modal { padding: 25px 19px; }
 }
 

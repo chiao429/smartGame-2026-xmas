@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Team } from "@/types/game";
 
 interface SetupScreenProps {
-  onStart: (teams: Team[]) => void;
+  onStart: (teams: Team[], startingTeamIndex: number) => void;
 }
 
 const TEAM_COLORS = ["#3869A8", "#C77835"];
@@ -12,6 +12,7 @@ const DEFAULT_NAMES = ["雪狼隊", "獵豹隊"];
 
 export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
   const [teamNames, setTeamNames] = useState(DEFAULT_NAMES);
+  const [startingTeamIndex, setStartingTeamIndex] = useState(0);
 
   const handleNameChange = (index: number, name: string) => {
     setTeamNames((previous) => previous.map((value, item) => item === index ? name : value));
@@ -27,7 +28,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
       emoji: TEAM_EMOJIS[index],
       image: TEAM_IMAGES[index],
     }));
-    onStart(teams);
+    onStart(teams, startingTeamIndex);
   };
 
   return (
@@ -55,6 +56,33 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
                   <span className="xmas-team-field-caption">第 {index + 1} 隊</span>
                   <input type="text" value={name} maxLength={12} onChange={(event) => handleNameChange(index, event.target.value)} placeholder={`隊伍 ${index + 1}`} aria-label={`第 ${index + 1} 隊名稱`} />
                 </span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <section className="xmas-setup-section" aria-labelledby="starting-team-title">
+          <h2 id="starting-team-title">先手隊伍</h2>
+          <div className="xmas-first-team-options" role="radiogroup" aria-labelledby="starting-team-title">
+            {teamNames.map((name, index) => (
+              <label className={`xmas-first-team-option${startingTeamIndex === index ? " is-selected" : ""}`} key={index}>
+                <span className="xmas-team-avatar" style={{ backgroundColor: TEAM_COLORS[index] }} aria-hidden="true">
+                  {TEAM_IMAGES[index] ? (
+                    <span className="xmas-piece-image" style={{ backgroundImage: `url(${TEAM_IMAGES[index]})` }} />
+                  ) : TEAM_EMOJIS[index]}
+                </span>
+                <span className="xmas-first-team-copy">
+                  <span className="xmas-team-field-caption">第 {index + 1} 隊</span>
+                  <strong>{name.trim() || `隊伍 ${index + 1}`}</strong>
+                </span>
+                <input
+                  type="radio"
+                  name="starting-team"
+                  value={index}
+                  checked={startingTeamIndex === index}
+                  onChange={() => setStartingTeamIndex(index)}
+                  aria-label={`選擇${name.trim() || `第 ${index + 1} 隊`}先開始`}
+                />
               </label>
             ))}
           </div>
