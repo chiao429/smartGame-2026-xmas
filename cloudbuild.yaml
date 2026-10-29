@@ -1,0 +1,35 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "${_IMAGE}", "."]
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: sh
+    args:
+      - -ceu
+      - |
+        docker run --detach --name smartgame-xmas-smoke "${_IMAGE}"
+        trap 'docker stop smartgame-xmas-smoke >/dev/null' EXIT
+        ready=false
+        for attempt in $$(seq 1 30); do
+          if docker exec smartgame-xmas-smoke node -e '
+            (async () => {
+              const base = "http://127.0.0.1:8080";
+              const [home, game, health] = await Promise.all([
+                fetch(base + "/"),
+                fetch(base + "/game"),
+                fetch(base + "/api/health"),
+              ]);
+              if (!home.ok || !game.ok || !health.ok) process.exit(1);
+              if ((await health.json()).status !== "ok") process.exit(1);
+            })().catch(() => process.exit(1));
+          '; then
+            ready=true
+            break
+          fi
+          sleep 2
+        done
+        test "$$ready" = true
+images:
+  - "${_IMAGE}"
+options:
+  logging: GCS_ONLY
+timeout: 1200s

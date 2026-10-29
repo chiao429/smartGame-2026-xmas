@@ -65,7 +65,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3001';
+    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || (
+      process.env.NODE_ENV === "development" ? "http://localhost:3001" : window.location.origin
+    );
     socket = io(serverUrl);
 
     socket.on('connect', () => {

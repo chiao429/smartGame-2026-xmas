@@ -2,11 +2,12 @@ const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
+const io = new Server(httpServer, process.env.NODE_ENV === 'production' ? {} : {
   cors: {
     origin: process.env.CLIENT_URL || 'http://localhost:3000',
     methods: ['GET', 'POST'],
@@ -34,6 +35,13 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/game', (req, res) => {
   res.json(gameState);
+});
+
+const staticDir = path.join(__dirname, '..', 'out');
+app.use(express.static(staticDir, { extensions: ['html'], index: false }));
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  res.sendFile(path.join(staticDir, 'index.html'));
 });
 
 io.on('connection', (socket) => {

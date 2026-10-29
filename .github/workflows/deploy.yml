@@ -1,0 +1,100 @@
+name: CI and Deploy
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smartgame-2026-xmas-production
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          package-manager-cache: false
+      - run: npm ci --legacy-peer-deps
+      - run: npm run lint
+      - run: npm run build
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: google-github-actions/auth@v3
+        with:
+          project_id: ppckids
+          workload_identity_provider: projects/587784138412/locations/global/workloadIdentityPools/sk-device-github/providers/sk-device-main
+          service_account: sk-device-gh-deploy@ppckids.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v3
+        with:
+          project_id: ppckids
+          version: ">= 363.0.0"
+      - name: Build and deploy
+        env:
+          IMAGE: asia-east1-docker.pkg.dev/ppckids/sk-device/smartgame-2026-xmas:${{ github.sha }}
+        run: |
+          set -euo pipefail
+          previous_revision="$(gcloud run services describe smartgame-2026-xmas --project ppckids --region asia-east1 --format='value(status.latestReadyRevisionName)')"
+          service_url="$(gcloud run services describe smartgame-2026-xmas --project ppckids --region asia-east1 --format='value(status.url)')"
+
+          rollback() {
+            if [[ -n "${previous_revision}" ]]; then
+              gcloud run services update-traffic smartgame-2026-xmas --project ppckids --region asia-east1 --to-revisions "${previous_revision}=100" --quiet || true
+            fi
+          }
+
+          gcloud builds submit \
+            --project ppckids \
+            --region asia-east1 \
+            --config cloudbuild.yaml \
+            --substitutions="_IMAGE=${IMAGE}" \
+            --service-account projects/ppckids/serviceAccounts/sk-device-build@ppckids.iam.gserviceaccount.com \
+            --gcs-source-staging-dir gs://ppckids-sk-device-build/source \
+            --gcs-log-dir gs://ppckids-sk-device-build/logs \
+            --quiet
+
+          gcloud run deploy smartgame-2026-xmas \
+            --project ppckids \
+            --region asia-east1 \
+            --image "${IMAGE}" \
+            --service-account sk-device-web@ppckids.iam.gserviceaccount.com \
+            --cpu 1 \
+            --memory 512Mi \
+            --concurrency 40 \
+            --timeout 3600s \
+            --min 0 \
+            --max 1 \
+            --session-affinity \
+            --quiet || { rollback; exit 1; }
+
+          gcloud run services update-traffic smartgame-2026-xmas --project ppckids --region asia-east1 --to-latest --quiet || { rollback; exit 1; }
+          healthy=false
+          for attempt in $(seq 1 6); do
+            if curl --max-time 10 --fail --silent --show-error --output /dev/null "${service_url}/api/health" && curl --max-time 10 --fail --silent --show-error --output /dev/null "${service_url}/" && curl --max-time 10 --fail --silent --show-error --output /dev/null "${service_url}/game"; then
+              healthy=true
+              break
+            fi
+            sleep 5
+          done
+
+          if [[ "${healthy}" != true ]]; then
+            rollback
+            echo "Post-deploy smoke check failed; traffic rollback attempted." >&2
+            exit 1
+          fi

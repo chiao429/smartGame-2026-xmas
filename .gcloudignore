@@ -1,0 +1,17 @@
+.gcloudignore
+.git
+#!include:.gitignore
+node_modules
+server/node_modules
+.next
+out
+.env
+.env.*
+coverage
+*.log
+*.tsbuildinfo
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
